@@ -1,0 +1,31 @@
+
+  <p class="bulletin-intro">Remplissez le bulletin, relisez le récapitulatif, puis confirmez l’envoi.</p>
+  <p data-submission-mode></p>
+  <p>L’envoi du bulletin ne déclenche aucun paiement ni prélèvement.</p>
+  %STATUTS%
+  %RIB%
+  <p class="bulletin-loading">Si le bouton « Vérifier le bulletin » reste indisponible, ouvrez cette page dans votre navigateur habituel.</p>
+  <form class="bulletin-form" method="post" novalidate>
+    <p>Les champs et les groupes obligatoires portent la mention « obligatoire ».</p>
+    <div class="form-errors" tabindex="-1" hidden>
+      <h2>Le bulletin contient des erreurs</h2>
+      <p>Suivez les liens pour rejoindre les champs à corriger.</p>
+      <ul></ul>
+    </div>
+    %FORM%
+    <div class="form-actions"><button type="submit" class="button" disabled>Vérifier le bulletin</button></div>
+  </form>
+  <section class="bulletin-summary" hidden>
+    <h2 tabindex="-1" class="summary-heading">Récapitulatif du bulletin</h2>
+    <p>Vérifiez vos renseignements avant de confirmer. Le bulletin n’a pas encore été envoyé.</p>
+    <dl class="summary-content"></dl>
+    <div class="form-actions">
+      <button type="button" class="button" data-send hidden>Envoyer le bulletin</button>
+      <button type="button" class="button button-secondary" data-edit>Modifier le bulletin</button>
+    </div>
+  </section>
+  <section class="bulletin-confirmation" hidden>
+    <h2 tabindex="-1" data-confirmation></h2>
+    <p data-confirmation-details></p>
+  </section>
+  <p class="bulletin-status" role="status" aria-live="polite" aria-atomic="true"></p>

@@ -1,0 +1,16 @@
+---
+import { withBase } from '../lib/url';
+import { siteName, subtitle, visiblePages } from '../lib/content';
+const pages = await visiblePages();
+const hasContact = pages.some(page => page.slug === 'contact');
+---
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div><p class="footer-name">{siteName}</p><p>{subtitle}</p></div>
+    <nav aria-label="Pied de page"><ul>
+      <li><a href={withBase('/')}>Accueil</a></li>
+      {hasContact && <li><a href={withBase('/contact/')}>Contact</a></li>}
+      {pages.some(page => page.slug === 'brochure') && <li><a href={withBase('/brochure/')}>Brochure</a></li>}
+    </ul></nav>
+  </div>
+</footer>

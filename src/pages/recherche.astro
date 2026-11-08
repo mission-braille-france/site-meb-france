@@ -1,0 +1,94 @@
+---
+import Base from '../layouts/Base.astro';
+import { withBase } from '../lib/url';
+---
+<Base title="Rechercher" description="Rechercher dans le site de MEB France." current="recherche" searchable={false}>
+  <div class="page-heading"><h1>Rechercher sur le site</h1></div>
+  <form id="search-form" class="search-form" role="search" method="get" action={withBase('/recherche/')}>
+    <label for="search-query">Votre recherche</label>
+    <p id="search-hint">Saisissez un mot ou une expression, puis activez « Rechercher ».</p>
+    <div class="search-fields">
+      <input id="search-query" name="q" type="search" aria-describedby="search-hint" maxlength="200" required />
+      <button type="submit" class="button">Rechercher</button>
+    </div>
+  </form>
+  <noscript><p>La recherche nécessite JavaScript. Vous pouvez aussi parcourir les rubriques depuis <a href={withBase('/')}>l’accueil</a>.</p></noscript>
+  <section>
+    <h2>Résultats de la recherche</h2>
+    <p id="search-status" role="status" aria-live="polite" aria-atomic="true"></p>
+    <ul id="search-results" class="search-results" role="list"></ul>
+  </section>
+  <script>
+    // Adaptation de recherche.astro de Tous Azimuts : formulaire natif + API
+    // bas niveau de Pagefind, sans widget, sans worker de commentaires.
+    import { withBase } from '../lib/url';
+    type SearchData = { url: string; meta: { title?: string }; excerpt: string };
+    type SearchResponse = { results: { data: () => Promise<SearchData> }[] };
+    type Pagefind = { init: () => Promise<void>; search: (query: string) => Promise<SearchResponse> };
+    const form = document.querySelector<HTMLFormElement>('#search-form')!;
+    const input = document.querySelector<HTMLInputElement>('#search-query')!;
+    const status = document.querySelector<HTMLElement>('#search-status')!;
+    const results = document.querySelector<HTMLUListElement>('#search-results')!;
+    let pagefindPromise: Promise<Pagefind> | undefined;
+    let request = 0;
+
+    function loadPagefind(): Promise<Pagefind> {
+      if (!pagefindPromise) {
+        const path = withBase('/pagefind/pagefind.js');
+        pagefindPromise = import(/* @vite-ignore */ path).then(async pf => { await pf.init(); return pf; });
+      }
+      return pagefindPromise;
+    }
+
+    async function runSearch(query: string) {
+      const current = ++request;
+      results.replaceChildren();
+      status.textContent = '';
+      if (!query) return;
+      results.setAttribute('aria-busy', 'true');
+      try {
+        const pagefind = await loadPagefind();
+        const search = await pagefind.search(query);
+        const data = await Promise.all(search.results.slice(0, 20).map(result => result.data()));
+        if (current !== request) return;
+        const list = document.createDocumentFragment();
+        for (const item of data) {
+          const resultUrl = new URL(item.url, window.location.origin);
+          if (resultUrl.origin !== window.location.origin) continue;
+          const li = document.createElement('li');
+          const heading = document.createElement('h3');
+          const link = document.createElement('a');
+          link.href = withBase(resultUrl.pathname) + resultUrl.search + resultUrl.hash;
+          link.textContent = item.meta.title ?? 'MEB France';
+          heading.append(link);
+          const excerpt = document.createElement('p');
+          // Pagefind produit du balisage <mark> : on extrait uniquement le texte.
+          excerpt.textContent = new DOMParser().parseFromString(item.excerpt, 'text/html').body.textContent;
+          li.append(heading, excerpt);
+          list.append(li);
+        }
+        results.append(list);
+        const count = search.results.length;
+        status.textContent = count === 0 ? `Aucun résultat pour « ${query} ».`
+          : `${count} résultat${count > 1 ? 's' : ''} pour « ${query} ».${count > 20 ? ' Les 20 premiers sont affichés.' : ''}`;
+      } catch {
+        if (current === request) {
+          pagefindPromise = undefined;
+          status.textContent = 'La recherche est indisponible. Réessayez ou parcourez le menu principal.';
+        }
+      } finally {
+        if (current === request) results.removeAttribute('aria-busy');
+      }
+    }
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const query = input.value.trim();
+      const url = new URL(window.location.href);
+      if (query) url.searchParams.set('q', query); else url.searchParams.delete('q');
+      history.replaceState(null, '', url);
+      void runSearch(query);
+    });
+    const query = new URLSearchParams(window.location.search).get('q')?.trim().slice(0, 200);
+    if (query) { input.value = query; void runSearch(query); }
+  </script>
+</Base>

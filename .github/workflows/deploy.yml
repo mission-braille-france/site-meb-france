@@ -1,0 +1,57 @@
+name: Déploiement GitHub Pages
+
+# La première publication est une version publique de relecture.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install --global pnpm@11.25.0
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check
+      - name: Construire le site
+        run: |
+          if [ "$MEB_PUBLICATION_MODE" = "production" ]; then
+            pnpm run build
+            if ! grep -q 'data-pagefind-body' dist/index.html; then
+              echo 'La page d’accueil est encore en brouillon.'
+              exit 1
+            fi
+          else
+            pnpm run build:review
+            node scripts/verify.mjs --review
+          fi
+        env:
+          MEB_PUBLICATION_MODE: ${{ vars.MEB_PUBLICATION_MODE }}
+          MEB_ADHESION_FORM_ID: ${{ vars.MEB_ADHESION_FORM_ID }}
+          MEB_DON_FORM_ID: ${{ vars.MEB_DON_FORM_ID }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

@@ -1,0 +1,50 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../lib/url';
+import { pagePath, visiblePages } from '../lib/content';
+import { documentSize } from '../lib/documents';
+interface Props { page: CollectionEntry<'pages'>; }
+const { page } = Astro.props;
+const { Content } = await page.render();
+const available = await visiblePages();
+const isHome = page.slug === 'accueil';
+const contact = available.some(item => item.slug === 'contact');
+---
+<div class:list={['page-heading', { 'page-heading--home': isHome }]}>
+  <p class="eyebrow">MEB France</p>
+  <h1 data-pagefind-meta="title">{page.data.title}</h1>
+  {page.data.lead && <p class="lead">{page.data.lead}</p>}
+</div>
+<div class="prose"><Content /></div>
+{isHome && <section class="discover">
+  <h2>Découvrir notre association</h2>
+  <ul class="discover-list" role="list">{available.filter(item => item.data.nav && !['accueil', 'contact'].includes(item.slug)).map(item => <li>
+    <h3><a href={withBase(pagePath(item.slug))}>{item.data.title}</a></h3>
+    <p>{item.data.description}</p>
+  </li>)}</ul>
+</section>}
+{page.data.notice === 'documents' && <section class="pending-block" data-pagefind-ignore>
+  <h2>Bulletins d’adhésion et de don</h2>
+  <p>Remplissez le bulletin en ligne, puis relisez-le avant de le transmettre à l’association.</p>
+  <ul>
+    <li><a href={withBase('/nous-soutenir/adhesion-2026/')}>Remplir le bulletin d’adhésion 2026</a></li>
+    <li><a href={withBase('/nous-soutenir/don-2026/')}>Remplir le bulletin de don 2026</a></li>
+  </ul>
+  <p><a href={withBase('/documents/rib-meb-france.pdf')} download>Télécharger le RIB de MEB France (PDF, {documentSize('rib')})</a></p>
+</section>}
+{isHome && available.some(item => item.slug === 'brochure') && <section class="pending-block">
+  <h2>Brochure de MEB France</h2>
+  <ul>
+    <li><a href={withBase('/brochure/')}>Lire la brochure en ligne</a></li>
+    <li><a href={withBase('/documents/brochure-meb-france.pdf')} download>Télécharger la brochure (PDF, 4 pages, {documentSize('brochure')})</a></li>
+  </ul>
+</section>}
+{page.data.notice === 'brochure' && <p class="page-actions"><a href={withBase('/documents/brochure-meb-france.pdf')} download>Télécharger la brochure de MEB France (PDF, 4 pages, {documentSize('brochure')})</a></p>}
+{page.data.notice === 'newsletter' && <section class="newsletter">
+  <h2>Gardons le lien</h2>
+  <p class="lead">Recevez les nouvelles de MEB France.</p>
+  <p>Inscrivez-vous à notre newsletter pour découvrir nos actualités, nos prochaines rencontres, nos séjours et les différentes façons de participer à la vie de l’association.</p>
+  <p class="pending-note" data-pagefind-ignore>L’inscription à la newsletter n’est pas encore disponible.</p>
+</section>}
+{page.data.notice === 'contact' && <p class="pending-block" data-pagefind-ignore>Le formulaire de contact n’est pas encore disponible. Vous pouvez utiliser l’adresse e-mail ou le numéro de téléphone ci-dessus.</p>}
+{!isHome && page.slug !== 'contact' && contact && <div class="page-actions"><a class="button" href={withBase('/contact/')}>{page.slug === 'sensibiliser-les-eglises' ? 'Nous contacter pour une intervention' : 'Nous contacter'}</a></div>}

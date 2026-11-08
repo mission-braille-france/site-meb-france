@@ -1,0 +1,198 @@
+
+
+  <h2>Vos coordonnées</h2>
+
+  <fieldset>
+    <legend>Civilité</legend>
+    <div class="radio-row">
+      <input type="radio" name="civilite" id="civilite_m" value="Monsieur">
+      <label for="civilite_m">Monsieur</label>
+    </div>
+    <div class="radio-row">
+      <input type="radio" name="civilite" id="civilite_mme" value="Madame">
+      <label for="civilite_mme">Madame</label>
+    </div>
+  </fieldset>
+
+  <div class="field">
+    <label for="nom">Nom (obligatoire)</label>
+    <input type="text" id="nom" name="nom" required="" autocomplete="family-name">
+  </div>
+
+  <div class="field">
+    <label for="prenom">Prénom (obligatoire)</label>
+    <input type="text" id="prenom" name="prenom" required="" autocomplete="given-name">
+  </div>
+
+  <div class="field">
+    <label for="adresse">Adresse postale (obligatoire)</label>
+    <input type="text" id="adresse" name="adresse" required="" autocomplete="street-address">
+  </div>
+
+  <div class="field">
+    <label for="code_postal">Code postal (obligatoire)</label>
+    <input type="text" id="code_postal" name="code_postal" required="" inputmode="numeric" autocomplete="postal-code">
+  </div>
+
+  <div class="field">
+    <label for="ville">Ville (obligatoire)</label>
+    <input type="text" id="ville" name="ville" required="" autocomplete="address-level2">
+  </div>
+
+  <div class="field">
+    <label for="pays">Pays</label>
+    <input type="text" id="pays" name="pays" value="France" autocomplete="country-name">
+  </div>
+
+  <div class="field">
+    <label for="tel_fixe">Téléphone fixe</label>
+    <input type="tel" id="tel_fixe" name="tel_fixe" autocomplete="tel">
+  </div>
+
+  <div class="field">
+    <label for="tel_portable">Téléphone portable (obligatoire)</label>
+    <input type="tel" id="tel_portable" name="tel_portable" required="" autocomplete="tel">
+  </div>
+
+  <div class="field">
+    <label for="email">Adresse email (obligatoire)</label>
+    <input type="email" id="email" name="email" required="" autocomplete="email">
+  </div>
+
+  <h2>Faire un don</h2>
+  <p>Vous souhaitez faire un don pour participer au développement des missions de la MEB France ? Merci de compléter cette section.</p>
+
+  <h3>Mode de soutien</h3>
+
+  <fieldset>
+    <legend>Je voudrais faire un don : (obligatoire)</legend>
+    <div class="radio-row">
+      <input type="radio" name="type_don" id="type_don_ponctuel" value="Ponctuel" required="">
+      <label for="type_don_ponctuel">Ponctuel, en une seule fois</label>
+    </div>
+    <div class="radio-row">
+      <input type="radio" name="type_don" id="type_don_regulier" value="Régulier" required="">
+      <label for="type_don_regulier">Régulier, par prélèvement automatique</label>
+    </div>
+  </fieldset>
+
+  <div id="ponctuel-block" class="conditional" hidden="">
+    <div class="field">
+      <label for="montant_ponctuel">Montant du don ponctuel, en euros</label>
+      <input type="text" id="montant_ponctuel" name="montant_ponctuel" inputmode="decimal" pattern="[0-9]+([,.][0-9]{1,2})?" data-money="" aria-describedby="montant_ponctuel-help"><p class="hint" id="montant_ponctuel-help">Montant positif en euros, par exemple 20 ou 20,50.</p>
+    </div>
+  </div>
+
+  <div id="regulier-block" class="conditional" hidden="">
+    <fieldset>
+      <legend>Montant du versement régulier :</legend>
+      <div class="radio-row">
+        <input type="radio" name="montant_regulier" id="montant_10" value="10 euros">
+        <label for="montant_10">10 euros</label>
+      </div>
+      <div class="radio-row">
+        <input type="radio" name="montant_regulier" id="montant_20" value="20 euros">
+        <label for="montant_20">20 euros</label>
+      </div>
+      <div class="radio-row">
+        <input type="radio" name="montant_regulier" id="montant_autre" value="Autre">
+        <label for="montant_autre">Autre montant</label>
+      </div>
+    </fieldset>
+    <div id="montant-autre-block" class="conditional" hidden="">
+      <div class="field">
+        <label for="montant_regulier_autre">Autre montant pour le versement régulier, en euros</label>
+        <input type="text" id="montant_regulier_autre" name="montant_regulier_autre" inputmode="decimal" pattern="[0-9]+([,.][0-9]{1,2})?" data-money="" aria-describedby="montant_regulier_autre-help"><p class="hint" id="montant_regulier_autre-help">Montant positif en euros, par exemple 20 ou 20,50.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Modalités de règlement du don</h3>
+
+  <fieldset>
+    <legend>Je règle mon don par : (obligatoire)</legend>
+    <div class="radio-row" data-one-off-payment="">
+      <input type="radio" name="paiement_don" id="paiement_cheque" value="Chèque" required="">
+      <label for="paiement_cheque">Chèque, à libeller à l’ordre de la MEB France</label>
+    </div>
+    <div class="radio-row" data-one-off-payment="">
+      <input type="radio" name="paiement_don" id="paiement_virement" value="Virement" required="">
+      <label for="paiement_virement">Virement bancaire</label>
+    </div>
+    <div class="radio-row">
+      <input type="radio" name="paiement_don" id="paiement_prelevement" value="Prélèvement automatique" required="">
+      <label for="paiement_prelevement">Prélèvement automatique</label>
+    </div>
+  </fieldset>
+
+  <div id="virement-don-block" class="conditional" hidden="">
+    <p class="hint">Virement à effectuer sur le compte de l’association MEB France :</p>
+    <p><strong>Titulaire du compte :</strong> ASSOCIATION MEB FRANCE</p>
+    <p><strong>IBAN :</strong> FR76 1027 8060 3700 0209 9040 144</p>
+    <p><strong>BIC :</strong> CMCIFR2A</p>
+  </div>
+
+  <div id="prelevement-block" class="conditional" hidden="">
+    <fieldset>
+      <legend>Périodicité du prélèvement automatique :</legend>
+      <div class="radio-row">
+        <input type="radio" name="periodicite_prelevement" id="periodicite_mensuelle" value="Mensuelle">
+        <label for="periodicite_mensuelle">Mensuelle</label>
+      </div>
+      <div class="radio-row">
+        <input type="radio" name="periodicite_prelevement" id="periodicite_trimestrielle" value="Trimestrielle">
+        <label for="periodicite_trimestrielle">Trimestrielle</label>
+      </div>
+      <div class="radio-row">
+        <input type="radio" name="periodicite_prelevement" id="periodicite_annuelle" value="Annuelle">
+        <label for="periodicite_annuelle">Annuelle</label>
+      </div>
+    </fieldset>
+
+    <h3>Suite de votre demande</h3>
+    <p class="hint">L’association vous contactera pour organiser le prélèvement. Aucune coordonnée bancaire ne vous est demandée ici.</p>
+    
+    
+  </div>
+
+  <fieldset>
+    <legend>Souhaitez-vous recevoir un reçu fiscal ? (obligatoire)</legend>
+    <div class="radio-row">
+      <input type="radio" name="recu_fiscal" id="recu_oui" value="Oui" required="">
+      <label for="recu_oui">Oui</label>
+    </div>
+    <div class="radio-row">
+      <input type="radio" name="recu_fiscal" id="recu_non" value="Non" required="">
+      <label for="recu_non">Non</label>
+    </div>
+  </fieldset>
+
+  <h2>Date et confirmation</h2>
+
+  <div class="field">
+    <label for="date">Date du bulletin (obligatoire)</label>
+    <input type="date" id="date" name="date" required="">
+  </div>
+
+  <div class="field">
+    <label for="signature">Nom complet pour confirmer le bulletin (obligatoire)</label>
+    <input type="text" id="signature" name="signature" required="" autocomplete="name">
+    
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="source-policy">
+    <p>
+      En vertu de la loi n° 2018-493 du 20 juin 2018, la MEB France s’engage
+      à ce que les traitements de données soient conformes au règlement
+      général sur la protection des données (RGPD) et à la loi Informatique
+      et Libertés.
+    </p>
+    <p>La MEB France vous remercie pour votre engagement à ses côtés !</p>
+  </div>
+

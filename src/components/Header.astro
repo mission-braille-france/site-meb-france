@@ -1,0 +1,31 @@
+---
+import { withBase } from '../lib/url';
+import { visiblePages, pagePath, subtitle } from '../lib/content';
+import logo from '../assets/logo-meb-france.png';
+const { current = '' } = Astro.props;
+const pages = (await visiblePages()).filter(page => page.data.nav);
+---
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand-row">
+      <a class="brand" href={withBase('/')}>
+        <img class="brand-logo" src={logo.src} width={logo.width} height={logo.height} alt="Association MEB France, accueil. Logo : trois groupes de points jaunes et gris foncé disposés comme des cellules braille." />
+        <span class="sr-only"> — </span>
+        <span class="brand-subtitle">{subtitle}</span>
+      </a>
+      <button type="button" class="button display-trigger" id="display-open" aria-haspopup="dialog" hidden>Réglages d’affichage</button>
+    </div>
+    <nav aria-label="Navigation principale">
+      <ul>{pages.map(page => <li><a href={withBase(pagePath(page.slug))} aria-current={current === page.slug ? 'page' : undefined}>{page.data.navTitle}</a></li>)}</ul>
+    </nav>
+    {current !== 'recherche' && (
+      <form class="header-search" role="search" method="get" action={withBase('/recherche/')}>
+        <label for="header-search-query">Rechercher sur le site</label>
+        <div class="search-fields">
+          <input id="header-search-query" type="search" name="q" required maxlength="200" enterkeyhint="search" />
+          <button class="button" type="submit">Rechercher</button>
+        </div>
+      </form>
+    )}
+  </div>
+</header>

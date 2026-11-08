@@ -1,0 +1,34 @@
+---
+const groups = [
+  ['theme', 'Thème', [['system','Selon votre appareil'], ['light','Clair'], ['dark','Sombre']]],
+  ['contrast', 'Contraste', [['standard','Standard'], ['max','Maximal']]],
+  ['size', 'Taille du texte', [['100','100 %'], ['112','112,5 %'], ['125','125 %'], ['150','150 %']]],
+  ['spacing', 'Espacement du texte', [['normal','Normal'], ['airy','Aéré'], ['wide','Très aéré']]],
+  ['font', 'Police de caractères', [['manrope','Manrope'], ['luciole','Luciole'], ['atkinson','Atkinson Hyperlegible'], ['arial','Arial'], ['verdana','Verdana']]],
+] as const;
+---
+<dialog id="display-dialog" class="display-dialog" aria-labelledby="display-title">
+  <h2 id="display-title" tabindex="-1" autofocus>Réglages d’affichage</h2>
+  <p>Les changements s’appliquent immédiatement. Vos choix sont conservés dans ce navigateur.</p>
+  <div class="display-groups">
+    {groups.map(([name, title, choices]) => (
+      <fieldset>
+        <legend>{title}</legend>
+        <div class="display-options">
+          {choices.map(([value, label], index) => (
+            <div class="display-option">
+              <input type="radio" id={`display-${name}-${value}`} name={name} value={value} checked={index === 0} />
+              <label for={`display-${name}-${value}`}>{label}</label>
+            </div>
+          ))}
+        </div>
+      </fieldset>
+    ))}
+  </div>
+  <p class="font-credits">Luciole : Laurent Bourcellier et Jonathan Perez (typographies.fr), en collaboration avec le Centre Technique Régional pour la Déficience Visuelle, licence <a href="https://creativecommons.org/licenses/by/4.0/deed.fr">CC BY 4.0</a>. Atkinson Hyperlegible : Braille Institute of America, licence SIL OFL 1.1.</p>
+  <div class="display-actions">
+    <button type="button" class="button button-secondary" id="display-reset">Réinitialiser</button>
+    <form method="dialog"><button class="button" type="submit">Fermer</button></form>
+  </div>
+  <p class="sr-only" id="display-status" role="status" aria-atomic="true"></p>
+</dialog>

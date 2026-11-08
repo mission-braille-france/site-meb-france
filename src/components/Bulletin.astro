@@ -1,0 +1,18 @@
+---
+import { formShell, documentSize } from '../lib/documents';
+import { review, visiblePages } from '../lib/content';
+import { withBase } from '../lib/url';
+interface Props { kind: 'adhesion' | 'don'; }
+const { kind } = Astro.props;
+const id = kind === 'adhesion' ? import.meta.env.MEB_ADHESION_FORM_ID : import.meta.env.MEB_DON_FORM_ID;
+const hasStatuts = (await visiblePages()).some(page => page.slug === 'statuts');
+const endpoint = !review && hasStatuts && typeof id === 'string' && /^[a-zA-Z0-9]+$/.test(id) ? `https://formspree.io/f/${id}` : undefined;
+const links = {
+  statuts: hasStatuts ? `<p><a href="${withBase('/statuts/')}">Lire les statuts de MEB France</a></p>` : '',
+  rib: `<p><a href="${withBase('/documents/rib-meb-france.pdf')}" download>Télécharger le RIB de MEB France (PDF, ${documentSize('rib')})</a></p>`
+};
+---
+<div class="bulletin" data-bulletin data-kind={kind} data-endpoint={endpoint} data-demo={review ? 'true' : 'false'} data-pagefind-ignore set:html={formShell(kind, links)} />
+<script>
+  import '../scripts/bulletin.js';
+</script>

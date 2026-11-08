@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import PageContent from '../components/PageContent.astro';
+import { visiblePages } from '../lib/content';
+const home = (await visiblePages()).find(page => page.slug === 'accueil');
+---
+<Base title="Accueil" description={home?.data.description} current="accueil" searchable={Boolean(home)}>
+  {home ? <PageContent page={home} /> : <><h1>MEB France</h1><p>Site en préparation.</p></>}
+</Base>

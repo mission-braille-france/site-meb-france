@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /
+
+# Protection temporaire de la version de travail.
+# À remplacer et compléter avec le sitemap après validation de la publication.

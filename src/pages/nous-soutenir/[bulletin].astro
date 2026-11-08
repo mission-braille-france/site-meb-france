@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import Bulletin from '../../components/Bulletin.astro';
+import { visiblePages } from '../../lib/content';
+import { withBase } from '../../lib/url';
+export async function getStaticPaths() {
+  if (!(await visiblePages()).some(page => page.slug === 'nous-soutenir')) return [];
+  return [{ params: { bulletin: 'adhesion-2026' }, props: { kind: 'adhesion' as const } },
+    { params: { bulletin: 'don-2026' }, props: { kind: 'don' as const } }];
+}
+const { kind } = Astro.props;
+const title = kind === 'adhesion' ? 'Bulletin d’adhésion 2026' : 'Bulletin de don 2026';
+---
+<Base title={title} current="nous-soutenir" searchable={false}>
+  <p class="no-print"><a href={withBase('/nous-soutenir/')}>Nous soutenir</a></p>
+  <div class="page-heading"><h1>{title}</h1></div>
+  <Bulletin kind={kind} />
+</Base>
