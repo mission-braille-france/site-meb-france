@@ -4,7 +4,9 @@ import { review, visiblePages } from '../lib/content';
 import { withBase } from '../lib/url';
 interface Props { kind: 'adhesion' | 'don'; }
 const { kind } = Astro.props;
-const id = kind === 'adhesion' ? (import.meta.env.MEB_ADHESION_FORM_ID || 'mdeglolb') : import.meta.env.MEB_DON_FORM_ID;
+const id = kind === 'adhesion'
+  ? (import.meta.env.MEB_ADHESION_FORM_ID || 'mdeglolb')
+  : (import.meta.env.MEB_DON_FORM_ID || 'mkjrvnao');
 const hasStatuts = (await visiblePages()).some(page => page.slug === 'statuts');
 const deployed = process.env.GITHUB_REPOSITORY === 'mission-braille-france/site-meb-france' && process.env.GITHUB_REF === 'refs/heads/main';
 const endpoint = (!review || deployed) && hasStatuts && typeof id === 'string' && /^[a-zA-Z0-9]+$/.test(id) ? `https://formspree.io/f/${id}` : undefined;
