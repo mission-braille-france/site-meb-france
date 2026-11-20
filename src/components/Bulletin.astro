@@ -9,6 +9,7 @@ const hasStatuts = (await visiblePages()).some(page => page.slug === 'statuts');
 const deployed = process.env.GITHUB_REPOSITORY === 'mission-braille-france/site-meb-france' && process.env.GITHUB_REF === 'refs/heads/main';
 const endpoint = (!review || deployed) && hasStatuts && typeof id === 'string' && /^[a-zA-Z0-9]+$/.test(id) ? `https://formspree.io/f/${id}` : undefined;
 const links = {
+  accueil: endpoint ? withBase('/') : '',
   statuts: hasStatuts ? `<p><a href="${withBase('/statuts/')}">Lire les statuts de MEB France</a></p>` : '',
   rib: `<p><a href="${withBase('/documents/rib-meb-france.pdf')}" download>Télécharger le RIB de MEB France (PDF, ${documentSize('rib')})</a></p>`
 };
