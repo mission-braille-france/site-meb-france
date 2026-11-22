@@ -9,8 +9,8 @@ const pages = (await visiblePages()).filter(page => page.data.nav && page.slug !
   <div class="header-inner">
     <div class="brand-row">
       <div class="brand">
-        <a href={withBase('/')} aria-label="Accueil MEB France" aria-current={current === 'accueil' ? 'page' : undefined}>
-          <img class="brand-logo" src={logo.src} width={logo.width} height={logo.height} alt="Accueil, points braille jaunes et gris foncé" />
+        <a href={withBase('/')} aria-current={current === 'accueil' ? 'page' : undefined}>
+          <img class="brand-logo" src={logo.src} width={logo.width} height={logo.height} alt="Accueil MEB France, points braille jaunes et gris foncé" />
         </a>
         <span class="brand-subtitle">{subtitle}</span>
       </div>
