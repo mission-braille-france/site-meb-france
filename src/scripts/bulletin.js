@@ -28,11 +28,13 @@ export function setupBulletin(root) {
   const edit = root.querySelector('[data-edit]');
   const demo = root.dataset.demo === 'true';
   const endpoint = window.location.protocol === 'https:' && /^https:\/\/formspree\.io\/f\/[a-zA-Z0-9]+$/.test(root.dataset.endpoint ?? '') ? root.dataset.endpoint : '';
-  root.querySelector('[data-submission-mode]').textContent = demo
+  const submissionMode = root.querySelector('[data-submission-mode]');
+  submissionMode.textContent = demo
     ? 'Aperçu : utilisez des renseignements fictifs. L’envoi est simulé.'
     : endpoint
-      ? contact ? 'Votre message sera transmis à MEB France via Formspree.' : 'Vos renseignements seront transmis à MEB France via Formspree après votre confirmation.'
+      ? contact ? '' : 'Vos renseignements seront transmis à MEB France via Formspree après votre confirmation.'
     : 'L’envoi en ligne n’est pas encore disponible. Vous pouvez contacter l’association.';
+  submissionMode.hidden = !submissionMode.textContent;
   if (!contact) send.hidden = !demo && !endpoint;
   if (demo) send.textContent = 'Simuler l’envoi';
   const fields = [...form.querySelectorAll('input, textarea')];
