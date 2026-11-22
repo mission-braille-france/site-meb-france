@@ -180,7 +180,7 @@ main { padding-block: 1.5rem 5rem; min-height: 50vh; }
 .page-actions { margin-top: 2.5rem; }
 .button { font: inherit; display: inline-block; background: var(--color-brand-fill); color: var(--color-on-fill); padding: .75rem 1.3rem; border: 2px solid var(--color-brand-fill); border-radius: .2rem; text-decoration: none; font-weight: 700; cursor: pointer; }
 .button:hover { background: var(--color-hover-fill); border-color: var(--color-hover-fill); color: var(--color-on-fill); }
-.button, input, select { letter-spacing: inherit; word-spacing: inherit; }
+.button, input, select, textarea { letter-spacing: inherit; word-spacing: inherit; }
 .button:focus-visible { outline-color: var(--color-text); }
 :root[data-contrast='max'][data-theme='dark'] .button { border-color: var(--color-control-border); }
 @media (prefers-color-scheme: dark) {
@@ -191,7 +191,7 @@ label { font-weight: 700; }
 .search-form label { display: block; }
 .search-form p { font-size: 1rem; color: var(--color-muted); margin-block: .5rem 1rem; }
 .search-fields { display: flex; flex-wrap: wrap; gap: 1rem; }
-input, select { font: inherit; color: var(--color-text); background: var(--color-surface); border: 2px solid var(--color-control-border); border-radius: .2rem; padding: .6rem .8rem; min-height: 2.75rem; max-width: 100%; }
+input, select, textarea { font: inherit; color: var(--color-text); background: var(--color-surface); border: 2px solid var(--color-control-border); border-radius: .2rem; padding: .6rem .8rem; min-height: 2.75rem; max-width: 100%; }
 input { flex: 1 1 14rem; min-width: 0; }
 .search-results { padding: 0; list-style: none; max-width: 47rem; }
 .search-results li { padding-block: 1.5rem; border-bottom: 1px solid var(--color-border); }
@@ -203,7 +203,7 @@ input { flex: 1 1 14rem; min-width: 0; }
 .bulletin legend { font-weight: 700; padding-inline: .3rem; }
 .bulletin .field { margin-block: 1.3rem; }
 .bulletin .field > label { display: block; margin-bottom: .4rem; }
-.bulletin .field input { width: 100%; max-width: 31rem; }
+.bulletin .field :is(input, textarea) { width: 100%; max-width: 31rem; }
 .bulletin .radio-row, .bulletin .checkbox-row { display: flex; align-items: flex-start; gap: .75rem; padding-block: .4rem; }
 .bulletin input[type='radio'], .bulletin input[type='checkbox'] { flex: 0 0 auto; width: 1.3rem; height: 1.3rem; min-height: 0; margin: .4rem 0 0; accent-color: var(--color-link); }
 .bulletin .radio-row label, .bulletin .checkbox-row label { font-weight: 400; }

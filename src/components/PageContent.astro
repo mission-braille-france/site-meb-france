@@ -1,4 +1,5 @@
 ---
+import Bulletin from './Bulletin.astro';
 import type { CollectionEntry } from 'astro:content';
 import { withBase } from '../lib/url';
 import { pagePath, visiblePages } from '../lib/content';
@@ -46,5 +47,5 @@ const contact = available.some(item => item.slug === 'contact');
   <p>Inscrivez-vous à notre newsletter pour découvrir nos actualités, nos prochaines rencontres, nos séjours et les différentes façons de participer à la vie de l’association.</p>
   <p class="pending-note" data-pagefind-ignore>L’inscription à la newsletter n’est pas encore disponible.</p>
 </section>}
-{page.data.notice === 'contact' && <p class="pending-block" data-pagefind-ignore>Le formulaire de contact n’est pas encore disponible. Vous pouvez utiliser l’adresse e-mail ou le numéro de téléphone ci-dessus.</p>}
+{page.data.notice === 'contact' && <Bulletin kind="contact" />}
 {!isHome && page.slug !== 'contact' && contact && <div class="page-actions"><a class="button" href={withBase('/contact/')}>{page.slug === 'sensibiliser-les-eglises' ? 'Nous contacter pour une intervention' : 'Nous contacter'}</a></div>}

@@ -16,23 +16,26 @@ export function validIban(value) {
 export function setupBulletin(root) {
   const form = root.querySelector('form');
   const kind = root.dataset.kind;
+  const contact = kind === 'contact';
   const summary = root.querySelector('.bulletin-summary');
   const summaryHeading = root.querySelector('.summary-heading');
   const list = root.querySelector('.summary-content');
   const errors = root.querySelector('.form-errors');
   const errorList = errors.querySelector('ul');
   const status = root.querySelector('.bulletin-status');
-  const send = root.querySelector('[data-send]');
+  const submit = form.querySelector('button[type="submit"]');
+  const send = contact ? submit : root.querySelector('[data-send]');
   const edit = root.querySelector('[data-edit]');
   const demo = root.dataset.demo === 'true';
   const endpoint = window.location.protocol === 'https:' && /^https:\/\/formspree\.io\/f\/[a-zA-Z0-9]+$/.test(root.dataset.endpoint ?? '') ? root.dataset.endpoint : '';
   root.querySelector('[data-submission-mode]').textContent = demo
     ? 'Aperçu : utilisez des renseignements fictifs. L’envoi est simulé.'
-    : endpoint ? 'Vos renseignements seront transmis à MEB France via Formspree après votre confirmation.'
+    : endpoint
+      ? contact ? 'Votre message sera transmis à MEB France via Formspree.' : 'Vos renseignements seront transmis à MEB France via Formspree après votre confirmation.'
     : 'L’envoi en ligne n’est pas encore disponible. Vous pouvez contacter l’association.';
-  send.hidden = !demo && !endpoint;
+  if (!contact) send.hidden = !demo && !endpoint;
   if (demo) send.textContent = 'Simuler l’envoi';
-  const fields = [...form.querySelectorAll('input')];
+  const fields = [...form.querySelectorAll('input, textarea')];
   const field = id => form.querySelector(`#${id}`);
   const radio = name => form.querySelector(`input[name="${name}"]:checked:not(:disabled)`)?.value ?? '';
 
@@ -50,7 +53,7 @@ export function setupBulletin(root) {
     if (kind === 'adhesion') {
       block('nouvel-adherent-block', radio('statut_adherent') === 'Oui', ['engagement_principes', 'engagement_statuts']);
       block('virement-adhesion-block', radio('paiement_adhesion') === 'Virement');
-    } else {
+    } else if (kind === 'don') {
       const regular = radio('type_don') === 'Régulier';
       const once = radio('type_don') === 'Ponctuel';
       block('ponctuel-block', once, ['montant_ponctuel']);
@@ -80,7 +83,9 @@ export function setupBulletin(root) {
     });
     if (!errors.hidden) {
       errors.hidden = true;
-      status.textContent = 'Le bulletin a été modifié. Activez « Vérifier le bulletin » pour le vérifier à nouveau.';
+      status.textContent = contact
+        ? 'Le message a été modifié.'
+        : 'Le bulletin a été modifié. Activez « Vérifier le bulletin » pour le vérifier à nouveau.';
     }
   }
 
@@ -134,6 +139,7 @@ export function setupBulletin(root) {
   form.addEventListener('change', sync);
   form.addEventListener('submit', event => {
     event.preventDefault();
+    if (submit.disabled || form.hidden) return;
     sync();
     const invalid = validate();
     errorList.replaceChildren();
@@ -162,6 +168,10 @@ export function setupBulletin(root) {
       errors.focus();
       return;
     }
+    if (contact) {
+      void sendForm();
+      return;
+    }
     list.replaceChildren();
     const data = pairs();
     data.forEach(([key, val]) => {
@@ -174,51 +184,60 @@ export function setupBulletin(root) {
     summary.hidden = false;
     summaryHeading.focus();
   });
-  edit.addEventListener('click', () => {
+  edit?.addEventListener('click', () => {
     status.textContent = '';
     summary.hidden = true;
     form.hidden = false;
-    form.querySelector('button[type="submit"]').focus();
+    submit.focus();
   });
-  send.addEventListener('click', async () => {
-    if ((!demo && !endpoint) || send.disabled || summary.hidden) return;
-    send.disabled = edit.disabled = true;
+  if (!contact) send.addEventListener('click', sendForm);
+
+  async function sendForm() {
+    if ((!demo && !endpoint) || send.disabled || summary?.hidden) return;
+    send.disabled = true;
+    if (edit) edit.disabled = true;
+    if (contact) fields.forEach(input => { input.readOnly = true; });
     try {
       if (!demo) {
         status.textContent = 'Envoi en cours…';
         const payload = new window.FormData(form);
         payload.delete('don_iban');
         payload.delete('don_bic');
-        payload.set('bulletin', kind === 'adhesion' ? 'Adhésion 2026' : 'Don 2026');
+        if (!contact) payload.set('bulletin', kind === 'adhesion' ? 'Adhésion 2026' : 'Don 2026');
         const response = await window.fetch(endpoint, {
           method: 'POST', body: payload, headers: { Accept: 'application/json' },
           signal: AbortSignal.timeout(15000)
         });
         if (!response.ok) {
-          status.textContent = response.status === 429 ? 'Trop de demandes. Patientez avant de réessayer.' : 'L’envoi a été refusé. Vous pouvez réessayer ou contacter l’association.';
+          status.textContent = response.status === 429 ? 'Trop de demandes. Patientez avant de réessayer.'
+            : contact ? 'L’envoi a été refusé. Vous pouvez réessayer ou appeler l’association.'
+            : 'L’envoi a été refusé. Vous pouvez réessayer ou contacter l’association.';
           return;
         }
       }
       form.reset();
-      list.replaceChildren();
-      summary.hidden = true;
+      form.hidden = true;
+      list?.replaceChildren();
+      if (summary) summary.hidden = true;
       status.textContent = '';
       const heading = root.querySelector('[data-confirmation]');
-      heading.textContent = demo ? 'Simulation terminée' : 'Bulletin envoyé';
-      root.querySelector('[data-confirmation-details]').textContent = demo ? 'Aucun renseignement n’a été transmis.' : 'Votre bulletin a été transmis à MEB France.';
+      heading.textContent = demo ? 'Simulation terminée' : contact ? 'Message envoyé' : 'Bulletin envoyé';
+      root.querySelector('[data-confirmation-details]').textContent = demo ? 'Aucun renseignement n’a été transmis.' : contact ? 'Votre message a été transmis à MEB France.' : 'Votre bulletin a été transmis à MEB France.';
       heading.parentElement.hidden = false;
       heading.focus();
     } catch {
       status.textContent = 'Impossible de confirmer l’envoi. Vos renseignements sont toujours affichés. Contactez l’association si nécessaire.';
     } finally {
-      send.disabled = edit.disabled = false;
-      if (!summary.hidden) send.focus();
+      send.disabled = false;
+      if (edit) edit.disabled = false;
+      if (contact) fields.forEach(input => { input.readOnly = false; });
+      if (contact ? !form.hidden : !summary.hidden) send.focus();
     }
-  });
+  }
   const today = new Date();
-  field('date').value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  if (!contact) field('date').value = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   sync();
-  form.querySelector('button[type="submit"]').disabled = false;
+  submit.disabled = contact && !demo && !endpoint;
   root.querySelector('.bulletin-loading').hidden = true;
 }
 if (typeof document !== 'undefined') {

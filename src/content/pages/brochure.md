@@ -25,8 +25,6 @@ Pour continuer à organiser ces activités dans les meilleures conditions, nous 
 
 Contactez-nous pour en savoir plus et découvrir comment vous pouvez mettre vos talents au service des personnes déficientes visuelles :
 
-Notre adresse mail : [assomebfrance@gmail.com](mailto:assomebfrance@gmail.com)
-
 Tél : [07 49 08 55 15](tel:+33749085515) (répondeur)
 
 **Soyez tous les bienvenus pour vivre ensemble des moments de partage !**
