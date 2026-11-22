@@ -3,16 +3,17 @@ import { withBase } from '../lib/url';
 import { visiblePages, pagePath, subtitle } from '../lib/content';
 import logo from '../assets/logo-meb-france.png';
 const { current = '' } = Astro.props;
-const pages = (await visiblePages()).filter(page => page.data.nav);
+const pages = (await visiblePages()).filter(page => page.data.nav && page.slug !== 'accueil');
 ---
 <header class="site-header">
   <div class="header-inner">
     <div class="brand-row">
-      <a class="brand" href={withBase('/')}>
-        <img class="brand-logo" src={logo.src} width={logo.width} height={logo.height} alt="Association MEB France, accueil. Logo : trois groupes de points jaunes et gris foncé disposés comme des cellules braille." />
-        <span class="sr-only"> — </span>
+      <div class="brand">
+        <a href={withBase('/')} aria-label="Accueil MEB France" aria-current={current === 'accueil' ? 'page' : undefined}>
+          <img class="brand-logo" src={logo.src} width={logo.width} height={logo.height} alt="Accueil, points braille jaunes et gris foncé" />
+        </a>
         <span class="brand-subtitle">{subtitle}</span>
-      </a>
+      </div>
       <button type="button" class="button display-trigger" id="display-open" aria-haspopup="dialog" hidden>Réglages d’affichage</button>
     </div>
     <nav aria-label="Navigation principale">
