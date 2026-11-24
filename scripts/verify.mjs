@@ -74,29 +74,42 @@ function contrast(a, b) {
   return (values[0] + .05) / (values[1] + .05);
 }
 const css = readFileSync('src/styles/global.css', 'utf8');
-const light = css.match(/:root\s*\{([^}]+)\}/)[1];
-const dark = css.match(/:root\[data-theme='dark'\]\s*\{([^}]+)\}/)[1];
-const max = css.match(/:root\[data-contrast='max'\]\s*\{([^}]+)\}/)[1];
-const maxDark = css.match(/:root\[data-contrast='max'\]\[data-theme='dark'\]\s*\{([^}]+)\}/)[1];
-function tokens(block) { return Object.fromEntries([...block.matchAll(/--(color-[\w-]+):\s*(#[\da-f]{6})/g)].map(match => [match[1], match[2]])); }
+function colorsFor(selector) {
+  const start = css.indexOf(`${selector} {`);
+  assert(start !== -1, `Palette introuvable : ${selector}`);
+  const block = css.slice(start, css.indexOf('}', start));
+  return Object.fromEntries([...block.matchAll(/--(color-[\w-]+):\s*(#[\da-f]{6})/g)].map(match => [match[1], match[2]]));
+}
+const lightTheme = colorsFor(':root');
+const max = colorsFor(":root[data-contrast='max']:not([data-theme='yellow'])");
+const palettes = [
+  { standard: lightTheme, max: { ...lightTheme, ...max } },
+  ...['dark', 'sepia', 'yellow'].map(name => {
+    const standard = { ...lightTheme, ...colorsFor(`:root[data-theme='${name}']`) };
+    const maxOverrides = colorsFor(`:root[data-contrast='max'][data-theme='${name}']`);
+    return { standard, max: { ...standard, ...(name === 'yellow' ? {} : max), ...maxOverrides } };
+  })
+];
 let minimum = Infinity;
-for (const theme of [
-  tokens(light),
-  { ...tokens(light), ...tokens(dark) },
-  { ...tokens(light), ...tokens(max) },
-  { ...tokens(light), ...tokens(dark), ...tokens(max), ...tokens(maxDark) }
-]) {
+function verifyTextContrast(theme, fg, bg) {
+  const ratio = contrast(theme[fg], theme[bg]);
+  minimum = Math.min(minimum, ratio);
+  assert(ratio >= 4.5, `Contraste texte ${fg}/${bg}: ${ratio.toFixed(2)}`);
+}
+for (const theme of palettes.flatMap(palette => [palette.standard, palette.max])) {
   for (const fg of ['color-text', 'color-muted', 'color-link', 'color-hover']) {
     for (const bg of ['color-bg', 'color-surface', 'color-tint']) {
-      const ratio = contrast(theme[fg], theme[bg]);
-      minimum = Math.min(minimum, ratio);
-      assert(ratio >= 4.5, `Contraste texte ${fg}/${bg}: ${ratio.toFixed(2)}`);
+      verifyTextContrast(theme, fg, bg);
     }
   }
   for (const bg of ['color-bg', 'color-surface', 'color-tint']) {
     assert(contrast(theme['color-control-border'], theme[bg]) >= 3, 'Bordure de champ insuffisante');
     assert(contrast(theme['color-focus'], theme[bg]) >= 3, 'Focus insuffisant');
   }
-  for (const bg of ['color-brand-fill', 'color-hover-fill', 'color-settings-fill', 'color-settings-hover']) assert(contrast(theme['color-on-fill'], theme[bg]) >= 4.5);
+  for (const bg of ['color-brand-fill', 'color-hover-fill', 'color-settings-fill', 'color-settings-hover']) verifyTextContrast(theme, 'color-on-fill', bg);
+}
+for (const { standard: theme } of palettes) {
+  verifyTextContrast(theme, 'color-hero-text', 'color-hero-bg');
+  verifyTextContrast(theme, 'color-hero-accent', 'color-hero-bg');
 }
 console.log(`${files.length} pages vérifiées : liens, titres, repères, champs, brouillons. Contraste de texte minimal calculé : ${minimum.toFixed(2)}:1.`);

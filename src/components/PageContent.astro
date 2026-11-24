@@ -10,11 +10,16 @@ const { Content } = await page.render();
 const available = await visiblePages();
 const isHome = page.slug === 'accueil';
 const contact = available.some(item => item.slug === 'contact');
+const { title, lead, scripture } = page.data;
 ---
 <div class:list={['page-heading', { 'page-heading--home': isHome }]}>
-  <p class="eyebrow">MEB France</p>
-  <h1 data-pagefind-meta="title">{page.data.title}</h1>
-  {page.data.lead && <p class="lead">{page.data.lead}</p>}
+  {!isHome && <p class="eyebrow">MEB France</p>}
+  <h1 data-pagefind-meta="title">{title}</h1>
+  {scripture && <figure class="scripture">
+    <blockquote><p>{scripture.text}</p></blockquote>
+    <figcaption><strong>{scripture.reference}</strong> ({scripture.credit})</figcaption>
+  </figure>}
+  {lead && <p class="lead">{lead}</p>}
 </div>
 <div class="prose"><Content /></div>
 {isHome && <section class="discover">

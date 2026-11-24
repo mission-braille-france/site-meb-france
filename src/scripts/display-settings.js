@@ -1,11 +1,13 @@
 (() => {
   const key = 'meb-display-settings';
+  const schemes = { system: 'light dark', light: 'light', dark: 'dark', sepia: 'light', yellow: 'dark' };
   const choices = {
-    theme: ['system', 'light', 'dark'],
+    theme: Object.keys(schemes),
     contrast: ['standard', 'max'],
-    size: ['100', '112', '125', '150'],
+    size: ['100', '112', '125', '150', '200'],
     spacing: ['normal', 'airy', 'wide'],
-    font: ['manrope', 'luciole', 'atkinson', 'arial', 'verdana']
+    font: ['manrope', 'luciole', 'atkinson', 'arial', 'verdana'],
+    reading: ['normal', 'narrow']
   };
   const root = document.documentElement;
   function load() {
@@ -17,7 +19,7 @@
     const selected = Object.fromEntries(Object.entries(choices).map(([name, values]) =>
       [name, values.includes(input[name]) ? input[name] : values[0]]));
     Object.assign(root.dataset, selected);
-    document.querySelector('meta[name="color-scheme"]').content = selected.theme === 'system' ? 'light dark' : selected.theme;
+    document.querySelector('meta[name="color-scheme"]').content = schemes[selected.theme];
     return selected;
   }
   let selected = apply(load());
@@ -42,6 +44,7 @@
       const input = event.target;
       if (!radios.includes(input) || !input.checked) return;
       save({ ...selected, [input.name]: input.value });
+      input.scrollIntoView({ block: 'nearest', inline: 'nearest' });
       status.textContent = input.closest('fieldset').querySelector('legend').textContent + ' : ' + input.labels[0].textContent + '.';
     });
     document.getElementById('display-reset').addEventListener('click', () => {

@@ -6,6 +6,8 @@ Sofian assure la réalisation du site. Corinne fournit les textes et les valide 
 
 Le site public est [meb-france.org](https://meb-france.org/). Son code se trouve sur `main` dans le [dépôt GitHub](https://github.com/mission-braille-france/site-meb-france). GitHub Pages héberge le site à la racine du domaine. La mention « version de travail » a été retirée du site. Vérifier l’état de `main` avant toute modification si le dossier courant ne contient pas le dépôt.
 
+La palette principale associe le violet profond, l’ivoire et l’or. L’accueil met en avant le titre « La MEB, au plus proche de vous », la phrase « Grandir dans la foi, partager et vivre la fraternité. » et la citation de Jean 17:21, avec sa référence et son crédit.
+
 Les bulletins de don et d’adhésion transmettent les réponses via Formspree après relecture. Le formulaire de contact permet l’envoi direct. Les bulletins servent à transmettre une demande d’adhésion ou une intention de don et ne déclenchent ni paiement ni prélèvement. Utiliser des réponses simulées lors des tests locaux et automatisés.
 
 Les statuts ont leur propre page, liée depuis les bulletins. La version fournie comporte des mentions à compléter et reste à valider par l’association. La brochure et le RIB sont téléchargeables en PDF.
@@ -14,8 +16,10 @@ Les statuts ont leur propre page, liée depuis les bulletins. La version fournie
 
 Astro 4 génère un site statique. Les pages Markdown sont dans `src/content/pages/` et leur schéma est dans `src/content/config.ts`. La mise en page se trouve dans `src/layouts/Base.astro` et `src/styles/global.css`. Pagefind est indexé à la construction. L’aperçu ZIP possède une recherche hors ligne.
 
-Conserver l’ordre de navigation actuel, avec la recherche après « Contact », le lien d’évitement comme premier lien, un titre de niveau 1, les repères, les intitulés explicites et le texte alternatif du logo. Employer les contrôles HTML natifs et conserver un focus visible. Le panneau « Réglages d’affichage » propose le thème, le contraste, la taille du texte, l’espacement et la police. Préserver son fonctionnement au clavier et le retour du focus à la fermeture.
+Conserver l’ordre de navigation actuel, avec la recherche après « Contact », le lien d’évitement comme premier lien, un titre de niveau 1, les repères, les intitulés explicites et le texte alternatif du logo. Employer les contrôles HTML natifs et conserver un focus visible.
 
-Vérifier avec `pnpm run check`, `pnpm run build:review` et `node scripts/verify.mjs --review`. Les contrôles automatisés couvrent la structure, les liens, les contrastes, la recherche et les bulletins simulés. Les essais complets avec un lecteur d’écran restent à confirmer par Sofian et Corinne.
+Le panneau « Réglages d’affichage » propose le thème de l’appareil, les thèmes clair et sombre, ainsi que les thèmes « Sépia » et « Jaune sur noir », inspirés de la personnalisation des couleurs de Confort de lecture. Chaque thème a un contraste standard et un contraste maximal. Le panneau permet aussi de choisir la police, l’espacement, la taille du texte jusqu’à 200 % et l’option « Lignes courtes » pour les articles. Le navigateur conserve les choix. Préserver les couleurs forcées du système, la visibilité du réglage actif après un changement et le retour du focus à la fermeture.
+
+Vérifier avec `pnpm run check`, `pnpm run build:review` et `node scripts/verify.mjs --review`. Les contrôles automatisés couvrent la structure, les liens, les contrastes, la recherche et les bulletins simulés. Pour un changement d’affichage, tester aussi le clavier et la mise en page à 320 pixels de large avec le texte à 200 % et l’espacement « Très aéré ». Les essais complets avec un lecteur d’écran restent à confirmer par Sofian et Corinne.
 
 Faire valider les contenus par l’association avant de lever leur statut de brouillon. Le dépôt est public. Ne pas y ajouter de secrets ni de données privées. Pour une modification du site publiée sur `main`, contrôler le déploiement GitHub Actions et le résultat à l’adresse publique.

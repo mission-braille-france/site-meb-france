@@ -7,6 +7,11 @@ const pages = defineCollection({
     navTitle: z.string(),
     description: z.string(),
     lead: z.string().optional(),
+    scripture: z.object({
+      text: z.string(),
+      reference: z.string(),
+      credit: z.string()
+    }).optional(),
     order: z.number(),
     draft: z.boolean().default(true),
     nav: z.boolean().default(true),
