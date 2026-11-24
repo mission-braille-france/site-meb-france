@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { load } from 'cheerio';
 
 const directory = path.resolve('dist');
-const base = '/site-meb-france/';
+const base = '/';
 const isReview = process.argv.includes('--review');
 const routes = ['rencontres-et-sejours', 'devenir-benevole', 'nous-soutenir', 'sensibiliser-les-eglises', 'contact'];
 function htmlFiles(dir) {
@@ -42,8 +42,8 @@ for (const file of files) {
   $('a[href],script[src],link[rel="stylesheet"]').each((_, el) => {
     const href = $(el).attr('href') ?? $(el).attr('src');
     if (!href || /^(https?:|mailto:|tel:)/.test(href)) return;
-    assert(href.startsWith(base), `${relative}: chemin hors base ${href}`);
-    const url = new URL(href, 'https://mission-braille-france.github.io');
+    assert(href.startsWith(base) && !href.startsWith('//'), `${relative}: chemin hors base ${href}`);
+    const url = new URL(href, 'https://meb-france.org');
     const local = decodeURIComponent(url.pathname.slice(base.length));
     const target = path.join(directory, local, url.pathname.endsWith('/') ? 'index.html' : '');
     assert(existsSync(target), `${relative}: lien cassé ${href}`);

@@ -2,13 +2,14 @@ import { visit } from 'unist-util-visit';
 
 // Adapté du fichier de Tous Azimuts, consulté sans modification du dépôt source.
 // Un même contexte de navigation, sauf demande explicite de nouvel onglet.
-export function rehypeExternalLinks() {
+export function rehypeExternalLinks({ site }) {
+  const hostname = new URL(site).hostname;
   return tree => visit(tree, 'element', node => {
     if (node.tagName !== 'a' || typeof node.properties?.href !== 'string') return;
     let url;
-    try { url = new URL(node.properties.href, 'https://mission-braille-france.github.io'); }
+    try { url = new URL(node.properties.href, site); }
     catch { return; }
-    if (!/^https?:$/.test(url.protocol) || url.hostname === 'mission-braille-france.github.io') return;
+    if (!/^https?:$/.test(url.protocol) || url.hostname === hostname) return;
     node.properties.rel = ['noopener', 'noreferrer'];
   });
 }

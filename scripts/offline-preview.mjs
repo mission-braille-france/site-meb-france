@@ -5,7 +5,7 @@ import { load } from 'cheerio';
 
 const source = path.resolve('dist');
 const out = path.resolve('../Apercu MEB France');
-const base = '/site-meb-france/';
+const base = '/';
 const read = file => readFileSync(path.join(source, file), 'utf8');
 assert(read('index.html').includes('Version de travail'), 'Construisez d’abord l’aperçu avec pnpm run build:review.');
 
@@ -88,7 +88,7 @@ for (const file of files) {
   $('a[href],img[src],form[action]').each((_, node) => {
     const attr = node.tagName === 'img' ? 'src' : node.tagName === 'form' ? 'action' : 'href';
     const href = $(node).attr(attr);
-    if (!href?.startsWith(base)) return;
+    if (!href?.startsWith(base) || href.startsWith('//')) return;
     const url = new URL(href, 'https://example.invalid');
     const pathname = url.pathname.slice(base.length);
     const target = pathname.endsWith('/') || !pathname ? pathname + 'index.html' : pathname;
