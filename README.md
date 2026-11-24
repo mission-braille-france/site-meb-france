@@ -1,12 +1,13 @@
 # MEB France
 
-Site statique de la Mission évangélique braille France, construit avec Astro 4. Les textes sont dans `src/content/pages/` ; les fiches restent en brouillon jusqu’à validation.
+Site de la Mission évangélique braille France, construit avec Astro 4 et hébergé par GitHub Pages. [Ouvrir le site public](https://meb-france.org/)
 
-- `pnpm install --frozen-lockfile` installe les dépendances (Node 24, pnpm 11.25.0).
-- `pnpm run build:review` prépare l’aperçu local avec les brouillons et des envois simulés.
-- `pnpm run preview` sert le résultat sur cet ordinateur.
-- `pnpm run build` prépare une version sans les pages ni les documents en brouillon.
+Le code est sur `main` dans le dépôt public `mission-braille-france/site-meb-france`. Le workflow GitHub Actions déploie le site. Les textes sont dans `src/content/pages/` et leur statut de brouillon est levé après validation éditoriale. Le fichier [AGENTS.md](AGENTS.md) décrit l’état du projet et les consignes d’accessibilité.
 
-Le dépôt GitHub `mission-braille-france/site-meb-france` est public. GitHub Pages publie la version de relecture à chaque envoi sur `main`. Elle est publique, non destinée à l’indexation et les bulletins y simulent l’envoi. Après validation, la variable de dépôt `MEB_PUBLICATION_MODE=production` permet de construire uniquement les pages approuvées.
+- `pnpm install --frozen-lockfile` installe les dépendances avec Node 24 et pnpm 11.25.0.
+- `pnpm run check` vérifie le projet Astro.
+- `pnpm run build:review` construit l’aperçu local avec les brouillons. `pnpm run preview` le sert sur cet ordinateur.
+- `node scripts/verify.mjs --review` vérifie la construction de relecture.
+- `pnpm run build` construit la version qui exclut les contenus en brouillon. Le workflow choisit cette construction si `MEB_PUBLICATION_MODE=production`.
 
-L’envoi des bulletins en ligne nécessite deux identifiants de formulaire Formspree (voir `.env.example`) et une version validée des statuts. Les bulletins ne déclenchent aucun règlement ni prélèvement.
+Sur le site public, les bulletins d’adhésion et de don sont transmis via Formspree après relecture. Le formulaire de contact permet l’envoi direct. Les bulletins ne déclenchent ni paiement ni prélèvement. Les essais locaux et automatisés utilisent des envois simulés. Voir [`.env.example`](.env.example) pour les paramètres des bulletins.
