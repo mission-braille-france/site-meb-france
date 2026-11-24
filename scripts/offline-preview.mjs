@@ -7,7 +7,8 @@ const source = path.resolve('dist');
 const out = path.resolve('../Apercu MEB France');
 const base = '/';
 const read = file => readFileSync(path.join(source, file), 'utf8');
-assert(read('index.html').includes('Version de travail'), 'Construisez d’abord l’aperçu avec pnpm run build:review.');
+const home = load(read('index.html'));
+assert.equal(home('meta[name="robots"]').attr('content'), 'noindex, nofollow', 'Construisez d’abord l’aperçu avec pnpm run build:review.');
 
 function htmlFiles(dir = '') {
   return readdirSync(path.join(source, dir), { withFileTypes: true }).flatMap(entry => {
@@ -133,5 +134,5 @@ for (const file of files) {
     assert(existsSync(path.resolve(out, path.posix.dirname(file), url.split(/[?#]/)[0])), `Lien introuvable : ${file} → ${url}`);
   });
 }
-writeFileSync(path.join(out, 'Lisez-moi.txt'), 'Aperçu privé de MEB France\r\n\r\nExtrayez tout le contenu de l’archive, puis ouvrez index.html dans votre navigateur.\r\nGardez les sous-dossiers avec index.html : ils contiennent les pages et les documents.\r\nLe site n’est pas publié. Pour les essais des bulletins, utilisez des renseignements fictifs.\r\n');
+writeFileSync(path.join(out, 'Lisez-moi.txt'), 'Aperçu privé de MEB France\r\n\r\nExtrayez tout le contenu de l’archive, puis ouvrez index.html dans votre navigateur.\r\nGardez les sous-dossiers avec index.html : ils contiennent les pages et les documents.\r\nPour les essais des bulletins, utilisez des renseignements fictifs.\r\n');
 console.log(`${files.length} pages prêtes à ouvrir hors ligne ; liens vérifiés. ${out}`);

@@ -35,7 +35,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <a class="skip-link" href={withBase(`${Astro.url.pathname}#main`)}>Aller au contenu principal</a>
     <Header current={current} />
     <main id="main" tabindex="-1" data-pagefind-body={searchable ? true : undefined}>
-      {review && <p class="review-notice" data-pagefind-ignore><strong>Version de travail.</strong> Ce site n’est pas publié. Textes et présentation à valider.</p>}
       <slot />
     </main>
     <Footer />

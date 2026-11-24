@@ -154,7 +154,6 @@ nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap
 .site-header nav a:hover { text-decoration: underline; }
 .site-header nav a[aria-current='page'] { border-bottom-color: var(--color-link); font-weight: 800; }
 main { padding-block: 1.5rem 5rem; min-height: 50vh; }
-.review-notice { background: var(--color-tint); font-size: .9rem; padding: .6rem 1rem; margin-bottom: 2.8rem; border-left: 3px solid var(--color-hover); }
 .page-heading { max-width: 51rem; padding-block: 1.5rem 1rem; }
 .page-heading--home { padding: 1.5rem clamp(1rem, 4vw, 2.5rem); margin-block: 1rem 2.5rem; border-inline-start: .5rem solid var(--color-accent-rule); border-block-end: .25rem solid var(--color-accent-rule); background: var(--color-surface); }
 .page-heading--home h1 { font-size: clamp(2.25rem, 1.7rem + 2.6vw, 4rem); max-width: 19ch; }
@@ -257,7 +256,7 @@ input { flex: 1 1 14rem; min-width: 0; }
   .site-header, .site-footer, .skip-link, .page-actions, .display-dialog { display: none; }
   .display-dialog::backdrop { display: none; }
   main { width: 100%; padding: 0; }
-  .no-print, .review-notice, .bulletin-intro, .bulletin-loading, .bulletin-status { display: none !important; }
+  .no-print, .bulletin-intro, .bulletin-loading, .bulletin-status { display: none !important; }
   .bulletin-summary[hidden] { display: none !important; }
   .bulletin-summary:not([hidden]) { display: block; }
   .bulletin:has(.bulletin-summary:not([hidden])) > p { display: none; }
