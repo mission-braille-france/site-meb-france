@@ -93,7 +93,7 @@ export function setupBulletin(root) {
 
   function label(input) {
     if (input.type === 'radio') return input.closest('fieldset').querySelector('legend').textContent.replace(/\s*\(obligatoire\)/, '').trim();
-    return form.querySelector(`label[for="${input.id}"]`)?.textContent.replace(/\s*\(obligatoire[^)]*\)/, '').trim() ?? input.id;
+    return form.querySelector(`label[for="${input.id}"]`)?.textContent.replace(/\s*\((?:obligatoire[^)]*|requis)\)/, '').trim() ?? input.id;
   }
   function validate() {
     const found = [];

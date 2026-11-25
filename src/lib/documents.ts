@@ -11,6 +11,7 @@ export function formShell(kind: FormKind, links: { statuts: string; rib: string;
     .replace('%SUMMARY%', contact ? '' : read('src/forms/summary.html'))
     .replace('%OBJET%', contact ? 'message' : 'bulletin')
     .replace('%FORMULAIRE%', contact ? 'contact' : kind === 'adhesion' ? 'demande d’adhésion' : 'don')
+    .replace('%REQUIRED_NOTICE%', contact ? '' : '<p>Les champs et les groupes obligatoires portent la mention « obligatoire ».</p>')
     .replace('%PAIEMENT%', contact ? '' : '<p>L’envoi du bulletin ne déclenche aucun paiement ni prélèvement.</p>')
     .replace('%STATUTS%', links.statuts)
     .replace('%RIB%', links.rib)
