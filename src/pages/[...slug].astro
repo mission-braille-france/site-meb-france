@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageContent from '../components/PageContent.astro';
 import { visiblePages } from '../lib/content';
+
 export async function getStaticPaths() {
   return (await visiblePages()).filter(page => page.slug !== 'accueil')
     .map(page => ({ params: { slug: page.slug }, props: { page } }));

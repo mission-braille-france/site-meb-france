@@ -10,6 +10,16 @@ const { Content } = await page.render();
 const available = await visiblePages();
 const isHome = page.slug === 'accueil';
 const contact = available.some(item => item.slug === 'contact');
+const contactActions: Partial<Record<string, string>> = {
+  'devenir-benevole': 'Nous contacter pour rejoindre un groupe local',
+  'sensibiliser-les-eglises': 'Nous contacter pour une intervention',
+  'recevoir-la-bible': 'Nous contacter au sujet d’une commande de Bible'
+};
+const contactAction = contactActions[page.slug];
+const activitiesSlug = 'rencontres-et-sejours';
+const reportPrefix = `${activitiesSlug}/`;
+const reports = page.slug === activitiesSlug ? available.filter(item => item.slug.startsWith(reportPrefix)) : [];
+const activities = page.slug.startsWith(reportPrefix) && available.find(item => item.slug === activitiesSlug);
 const { title, lead, scripture } = page.data;
 ---
 <div class:list={['page-heading', { 'page-heading--home': isHome }]}>
@@ -21,7 +31,18 @@ const { title, lead, scripture } = page.data;
   </figure>}
   {lead && <p class="lead">{lead}</p>}
 </div>
-<div class="prose"><Content /></div>
+<div class="prose">
+  <Content />
+  {reports.length > 0 && <section>
+    <h2>Comptes rendus de nos séjours</h2>
+    <ul>{reports.map(report => {
+      const { title, stayDate } = report.data;
+      const label = stayDate ? `${title} (${stayDate})` : title;
+      return <li><a href={withBase(pagePath(report.slug))}>{label}</a></li>;
+    })}</ul>
+  </section>}
+  {activities && <p><a href={withBase(pagePath(activities.slug))}>Retour à « {activities.data.title} »</a></p>}
+</div>
 {isHome && <section class="discover">
   <h2>Découvrir notre association</h2>
   <ul class="discover-list" role="list">{available.filter(item => item.data.nav && !['accueil', 'recevoir-la-bible', 'contact'].includes(item.slug)).map(item => <li>
@@ -60,4 +81,4 @@ const { title, lead, scripture } = page.data;
   <p class="pending-note" data-pagefind-ignore>L’inscription à la newsletter n’est pas encore disponible.</p>
 </section>}
 {page.data.notice === 'contact' && <Bulletin kind="contact" />}
-{!isHome && page.slug !== 'contact' && contact && <div class="page-actions"><a class="button" href={withBase('/contact/')}>{page.slug === 'sensibiliser-les-eglises' ? 'Nous contacter pour une intervention' : 'Nous contacter'}</a></div>}
+{contact && contactAction && <div class="page-actions"><a class="button" href={withBase('/contact/')}>{contactAction}</a></div>}

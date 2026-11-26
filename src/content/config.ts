@@ -7,6 +7,7 @@ const pages = defineCollection({
     navTitle: z.string(),
     description: z.string(),
     lead: z.string().optional(),
+    stayDate: z.string().optional(),
     scripture: z.object({
       text: z.string(),
       reference: z.string(),
