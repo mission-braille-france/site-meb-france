@@ -288,6 +288,9 @@ main { padding-block: 1.5rem 5rem; min-height: 50vh; }
 .prose > p:first-child { font-size: 1.2rem; }
 .prose h2 { max-width: 30ch; }
 .prose a { overflow-wrap: anywhere; }
+.stay-photo { max-inline-size: 32rem; margin: 1.5rem 0; }
+.stay-photo img { display: block; max-inline-size: 100%; block-size: auto; border-radius: .3rem; }
+.stay-photo figcaption { margin-block-start: .45rem; color: var(--color-muted); font-size: .95rem; }
 .discover { margin-top: 3rem; padding-top: .5rem; border-top: 2px solid var(--color-text); }
 .discover h2 { margin-top: 1.5rem; }
 .discover-list { margin: 0; padding: 0; list-style: none; }
