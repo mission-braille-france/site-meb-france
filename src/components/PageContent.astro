@@ -24,10 +24,17 @@ const { title, lead, scripture } = page.data;
 <div class="prose"><Content /></div>
 {isHome && <section class="discover">
   <h2>Découvrir notre association</h2>
-  <ul class="discover-list" role="list">{available.filter(item => item.data.nav && !['accueil', 'contact'].includes(item.slug)).map(item => <li>
+  <ul class="discover-list" role="list">{available.filter(item => item.data.nav && !['accueil', 'recevoir-la-bible', 'contact'].includes(item.slug)).map(item => <li>
     <h3><a href={withBase(pagePath(item.slug))}>{item.data.title}</a></h3>
     <p>{item.data.description}</p>
   </li>)}</ul>
+</section>}
+{isHome && <section class="partner-block">
+  <h2>Notre partenaire, la <a href="https://mebraille.ch/" target="_blank" rel="noopener noreferrer">MEB Suisse <small>(nouvelle fenêtre)</small></a></h2>
+  <div>
+    <p>La MEB France est partenaire de la Mission Évangélique Braille, en Suisse. La MEB Suisse prête des livres en braille et en audio, organise des séjours de vacances adaptés et soutient des projets de développement en Afrique.</p>
+    <p><a href="https://mebraille.ch/services/" target="_blank" rel="noopener noreferrer">Découvrir les services de la MEB Suisse (nouvelle fenêtre)</a></p>
+  </div>
 </section>}
 {page.data.notice === 'documents' && <section class="pending-block" data-pagefind-ignore>
   <h2>Bulletins d’adhésion et de don</h2>

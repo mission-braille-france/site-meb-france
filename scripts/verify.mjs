@@ -6,7 +6,7 @@ import { load } from 'cheerio';
 const directory = path.resolve('dist');
 const base = '/';
 const isReview = process.argv.includes('--review');
-const routes = ['rencontres-et-sejours', 'devenir-benevole', 'nous-soutenir', 'sensibiliser-les-eglises', 'contact'];
+const routes = ['rencontres-et-sejours', 'devenir-benevole', 'nous-soutenir', 'sensibiliser-les-eglises', 'recevoir-la-bible', 'contact'];
 function htmlFiles(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap(item => {
     const file = path.join(dir, item.name);
