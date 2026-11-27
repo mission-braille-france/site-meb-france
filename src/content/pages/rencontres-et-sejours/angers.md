@@ -54,5 +54,3 @@ Le lendemain, nous avons visité le [château d’Angers](https://www.chateau-an
 Le samedi après-midi, chacun a pu profiter d’un temps libre en ville pour se promener ou rapporter quelques souvenirs. Le dimanche matin, une église protestante luthérienne nous a chaleureusement accueillis pour le culte. Nous avons pu y présenter MEB France et ce qui nous rassemble, personnes déficientes visuelles et guides.
 
 Chacun est reparti dans sa région, heureux de ces quelques jours passés ensemble. Ce séjour nous a permis de tisser des liens entre des personnes venues d’horizons différents, comme nous souhaitons le faire lors des rencontres de MEB France.
-
-[Photos du séjour à Angers publiées par la MEB Suisse](https://mebraille.ch/actualites/notre-premier-sejour-a-angers/).
