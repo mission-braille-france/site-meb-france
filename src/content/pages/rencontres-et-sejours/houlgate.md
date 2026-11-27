@@ -14,7 +14,7 @@ Par Dominique Condello.
 En 2022, un peu plus d’un an après la création de MEB France en juin 2021, nous nous sommes retrouvés en Normandie pour un week-end entre membres à [Houlgate](https://www.ville-houlgate.fr/). Une douzaine de personnes ont fait le déplacement. Le bureau était au complet et le secrétaire général de la MEB Suisse était présent.
 
 <figure class="stay-photo">
-  <img src="https://mebraille.ch/wp-content/uploads/2023/01/Vue-du-Group-a-Houlgate-3-scaled.jpg" width="2560" height="1920" decoding="async" alt="Les participants posent au bord de l’eau. On voit des cannes blanches et un chien guide devant le groupe.">
+  <img src="/photos/sejours/houlgate/groupe-au-bord-de-leau.webp" width="2560" height="1920" decoding="async" alt="Les participants posent au bord de l’eau. On voit des cannes blanches et un chien guide devant le groupe.">
   <figcaption>Le groupe pendant le week-end à Houlgate.</figcaption>
 </figure>
 

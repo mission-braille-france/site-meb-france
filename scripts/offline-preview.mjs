@@ -77,8 +77,9 @@ for (const file of ['documents/bulletin-adhesion-2026.html', 'documents/bulletin
   const previous = path.join(out, file);
   if (existsSync(previous)) unlinkSync(previous);
 }
-cpSync(path.join(source, 'documents'), path.join(out, 'documents'), { recursive: true });
-cpSync(path.join(source, 'licences-polices'), path.join(out, 'licences-polices'), { recursive: true });
+for (const directory of ['documents', 'licences-polices', 'photos']) {
+  cpSync(path.join(source, directory), path.join(out, directory), { recursive: true });
+}
 for (const name of readdirSync(path.join(source, '_astro')).filter(file => file.endsWith('.png'))) {
   mkdirSync(path.join(out, '_astro'), { recursive: true });
   cpSync(path.join(source, '_astro', name), path.join(out, '_astro', name));

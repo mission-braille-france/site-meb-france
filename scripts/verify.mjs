@@ -49,7 +49,7 @@ for (const file of files) {
     assert(id && $('label').toArray().some(label => $(label).attr('for') === id), `${relative}: champ sans libellé`);
   });
   assert.equal($('img:not([alt])').length, 0, `${relative}: image sans alternative`);
-  $('a[href],script[src],link[rel="stylesheet"]').each((_, el) => {
+  $('a[href],img[src],script[src],link[rel="stylesheet"]').each((_, el) => {
     const href = $(el).attr('href') ?? $(el).attr('src');
     if (!href || /^(https?:|mailto:|tel:)/.test(href)) return;
     assert(href.startsWith(base) && !href.startsWith('//'), `${relative}: chemin hors base ${href}`);

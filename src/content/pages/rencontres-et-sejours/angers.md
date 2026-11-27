@@ -14,7 +14,7 @@ Par Dominique Condello.
 Après plusieurs mois de préparation, nous nous sommes retrouvés à Angers du 17 au 21 avril 2024 pour le premier séjour de MEB France ouvert aux adhérents et à toutes les personnes intéressées par nos activités. Nous étions 23 à loger et à prendre nos repas à [l’Hostellerie du Bon Pasteur](https://bonpasteur-hostellerie.org/). Beaucoup se connaissaient déjà, et les personnes qui nous rejoignaient pour la première fois ont vite trouvé leur place.
 
 <figure class="stay-photo">
-  <img src="https://mebraille.ch/wp-content/uploads/2024/09/sejour_Meb_France.jpg" width="1200" height="1600" decoding="async" alt="Les participants sourient, assis sur les bancs de wagonnets en bois.">
+  <img src="/photos/sejours/angers/groupe-dans-les-wagonnets.webp" width="1200" height="1600" decoding="async" alt="Les participants sourient, assis sur les bancs de wagonnets en bois.">
   <figcaption>Le groupe pendant le séjour à Angers.</figcaption>
 </figure>
 
@@ -29,21 +29,21 @@ Les deux jours suivants, le pasteur Togbé Naingaye nous a invités à poursuivr
 Au parc [Terra Botanica](https://www.terrabotanica.fr/), notre guide nous a fait découvrir l’histoire des plantes, des plus familières aux plus rares.
 
 <figure class="stay-photo">
-  <img src="https://mebraille.ch/wp-content/uploads/2024/09/France-1.jpg" width="1200" height="1600" loading="lazy" decoding="async" alt="Une participante tient une canne blanche au milieu des plantes tropicales.">
+  <img src="/photos/sejours/angers/visite-terra-botanica.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="Une participante tient une canne blanche au milieu des plantes tropicales.">
   <figcaption>Une halte pendant la visite de Terra Botanica.</figcaption>
 </figure>
 
 La chaleur et l’humidité de la serre tropicale nous ont particulièrement marqués.
 
 <figure class="stay-photo">
-  <img src="https://mebraille.ch/wp-content/uploads/2024/09/France-3.jpg" width="1200" height="1600" loading="lazy" decoding="async" alt="Un homme aveugle pose la main sur un tronc. Une personne l’accompagne, la main sur son épaule.">
+  <img src="/photos/sejours/angers/decouverte-arbre.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="Un homme aveugle pose la main sur un tronc. Une personne l’accompagne, la main sur son épaule.">
   <figcaption>Dans la serre tropicale.</figcaption>
 </figure>
 
 Nous avons aussi remonté le temps pour en apprendre davantage sur les origines de la vie végétale et animale.
 
 <figure class="stay-photo">
-  <img src="https://mebraille.ch/wp-content/uploads/2024/09/France-2.jpg" width="1200" height="1600" loading="lazy" decoding="async" alt="Des participants marchent sur une allée bordée de grands bambous.">
+  <img src="/photos/sejours/angers/allee-des-bambous.webp" width="1200" height="1600" loading="lazy" decoding="async" alt="Des participants marchent sur une allée bordée de grands bambous.">
   <figcaption>Promenade dans le parc.</figcaption>
 </figure>
 
